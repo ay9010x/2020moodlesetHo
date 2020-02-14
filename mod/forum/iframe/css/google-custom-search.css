@@ -1,0 +1,39 @@
+
+#external_search{
+    width: 300px;
+
+}
+
+.gsc-control-cse{
+    background-color: transparent !important;
+    border-color: #000000 !important;
+    padding: 0 !important;
+	height:40px !important;
+	width: 250px !important;
+}
+
+.gsc-control-wrapper-cse{
+  height: 30px;
+}
+
+.gsc-search-box{
+  height: 30px;
+}
+
+.gsc-input-box{
+  width: 165px;
+  height: 38px;
+}
+
+.gsib_a{
+  height: 30px;
+}
+
+.gsc-search-button{
+  width: 20px;
+}
+
+
+.gsc-search-box:hover{
+    cursor: pointer;
+}

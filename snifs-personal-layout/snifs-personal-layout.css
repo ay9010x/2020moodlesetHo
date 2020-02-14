@@ -1,0 +1,104 @@
+body{
+    font-size: 1em;
+    overflow: auto !important;
+}
+header{
+
+}
+/* div{
+    margin-bottom: 5px;
+    padding: 5px; */
+    /* background-color: aliceblue; */
+/* } */
+
+#myDiagramDiv {
+    background-color: white;
+    /* border: 1px solid gray; */
+    width: 1000px;
+    height: 1000px;
+    /* position: relative; */
+    position: absolute;
+    /* float:left; /* two div in a row*/
+    /* z-index: auto !important;
+    position: static !important; */
+}
+
+#inputEventsMsg {
+    position: fixed;
+    /* width: auto; */
+    max-height: 100vh !important;
+    overflow-y:auto !important;
+    /* max-height: 100vh; */
+    /* border: 1px solid gray; */
+    /* display: none; */
+    /* position: fixed; */
+    background-color: white !important;
+    /* left: 0; */
+    /* z-index: 999 !important; */
+
+
+    /* float:left; /* two div in a row*/ */
+    text-align: center;
+    height: 100vh;
+    margin-left: 50%;
+    transform: translateX(-50%);
+	display: none;
+	z-index: 5;
+}
+#inputEventsMsg > table {
+    /* width: auto; */
+    margin-right: 10px;
+    box-shadow: 5px 5px 5px gray;
+}
+
+.fullscreen-mask {
+	position: fixed;
+	z-index:3;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	/*display: none;*/
+	background-color: black;
+	opacity: 0.2;
+	cursor: default;
+}
+
+body.loading-status {
+	cursor: wait;
+}
+
+/* @media only screen and (max-width: 767px)
+.ui.table:not(.unstackable) thead {
+    display: block;
+} */
+footer{
+
+}
+canvas{
+    background-color: white;
+}
+a:hover{
+    cursor: pointer;
+}
+
+
+div.loading {
+	  background:url(loading.svg) center center no-repeat;
+	  position: fixed;
+	  top:0;
+	  left: 0;
+	  width: 100vw;
+	  height: 100vh;
+	  z-index: 999;
+}
+
+ .brand-mask {
+	 z-index: 3;
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 width: 200px;
+	 height: 100px;
+	 background-color: white;
+ }

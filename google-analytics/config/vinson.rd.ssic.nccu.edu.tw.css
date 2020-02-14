@@ -1,0 +1,23 @@
+
+.tripadvisor-info-blk,
+.news-detail-blk > h3.news-detail-title {
+   display: none;
+}
+
+.content-left-blk .tripadvisor-rating.show-owl {
+    display: none;
+}
+
+.smart-banner, .tripadvisor-rating {
+    display: none !important;
+}
+
+@media (max-width: 767px) and (min-width: 0) {
+    .has-smart-banner .header-wrapper {
+        top: 0px !important;
+    }
+}
+
+.main-container.has-smart-banner {
+    padding-top: 72px !important;
+}

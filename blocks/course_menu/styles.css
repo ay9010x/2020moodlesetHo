@@ -1,0 +1,34 @@
+.block_course_menu .menulist{
+    font-size: 20px;
+    text-align:left;
+    font-weight:bold;
+    line-height: 40px;
+    color: #fff;
+} 
+.block_course_menu .mainmenu{
+    font-size: 20px;
+    padding: 0px 20px 0px 20px;
+}
+.block_course_menu .menulist li.submenu{
+    display: none;
+}
+.block_course_menu .menulist ul{
+    display: inline-block;
+}
+.block_course_menu .menulist li{
+    display: block;
+    line-height: 40px;
+    text-align: left;
+    list-style: none;
+}
+.block_course_menu .menulist li a{
+    display: block;
+    color:#fff !important;
+    padding: 0px 20px 0px 45px;
+    text-decoration: none;
+}
+.block_course_menu .menulist li a:hover {
+    background-color: #555;
+    color: white;
+    text-decoration: none;
+}

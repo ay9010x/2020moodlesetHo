@@ -1,0 +1,28 @@
+#moodle-blocks.clearfix {	
+	  position:unset;
+    -webkit-column-count: 1;
+       -moz-column-count: 1;
+            column-count: 1;
+    -webkit-column-gap: 0%;
+       -moz-column-gap: 0%;
+            column-gap: 0%;
+    -webkit-column-width: 100%;
+       -moz-column-width: 100%;
+            column-width: 100%;
+}
+
+#moodle-blocks .block.block_course_menu {	
+	position:absolute;
+	opacity: 0.75;
+	z-index:9999;
+	width:240px;
+	left:-220px;	
+}
+
+.block_course_menu .block_action.notitle {
+	display:unset;
+	position:absolute;
+	
+  right:-60px;
+
+}

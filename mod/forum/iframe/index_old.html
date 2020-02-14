@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            SNIFS-iframe
+        </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- Script Here -->
+<script src="jquery-3.3.1.min.js"></script>
+<script src="control.js"></script>
+<script src="/snifs-personal-layout/semantic-ui/semantic.min.js"></script>
+<script src="/google-analytics/config/exp-snifs-2018.js"></script>
+
+<!-- CSS Here -->
+<link rel="stylesheet" href="main.css" />
+<link rel="stylesheet" type="text/css" href="/snifs-personal-layout/semantic-ui/semantic.min.css">
+    </head>
+    <body>
+<button id="snifs_person" class="ui button" onClick="personURL()">個人</button>
+<button id="snifs_group" class="ui button" onClick="groupURL()">小組</button>
+<button id="article" class="ui button" onClick="articleURL()">閱讀教材</button>
+<form id="external_search" class="ui icon input" action="https://www.google.com.tw/search" method="get" target="_blank">
+  <input type="text" placeholder="Search..." name="q">
+  <i class="inverted circular search link icon" onclick="$(this).parents('form:first').submit()"></i>
+</form>
+
+<iframe id="snifs" src="/snifs-personal-layout/snifs-personal-layout.php?layout=personal" scrolling="no"></iframe>
+<iframe id="discuss" src="/login/index.php#/mod/hsuforum/discuss.php?d=2" scrolling="yes"></iframe>
+    </body>
+</html>

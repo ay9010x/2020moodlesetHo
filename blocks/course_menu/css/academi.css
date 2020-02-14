@@ -1,0 +1,11 @@
+.block_course_menu {	
+	position:absolute;
+	opacity: 0.75;
+	z-index:9999;
+}
+
+.block_action.notitle {
+	position:absolute;
+	right:-70px;
+	
+}

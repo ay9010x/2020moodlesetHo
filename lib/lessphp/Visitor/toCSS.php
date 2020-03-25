@@ -1,0 +1,258 @@
+<?php
+
+
+class Less_Visitor_toCSS extends Less_VisitorReplacing{
+
+	private $charset;
+
+	public function __construct(){
+		parent::__construct();
+	}
+
+	
+	public function run( $root ){
+		return $this->visitObj($root);
+	}
+
+	public function visitRule( $ruleNode ){
+		if( $ruleNode->variable ){
+			return array();
+		}
+		return $ruleNode;
+	}
+
+	public function visitMixinDefinition($mixinNode){
+						$mixinNode->frames = array();
+		return array();
+	}
+
+	public function visitExtend(){
+		return array();
+	}
+
+	public function visitComment( $commentNode ){
+		if( $commentNode->isSilent() ){
+			return array();
+		}
+		return $commentNode;
+	}
+
+	public function visitMedia( $mediaNode, &$visitDeeper ){
+		$mediaNode->accept($this);
+		$visitDeeper = false;
+
+		if( !$mediaNode->rules ){
+			return array();
+		}
+		return $mediaNode;
+	}
+
+	public function visitDirective( $directiveNode ){
+		if( isset($directiveNode->currentFileInfo['reference']) && (!property_exists($directiveNode,'isReferenced') || !$directiveNode->isReferenced) ){
+			return array();
+		}
+		if( $directiveNode->name === '@charset' ){
+												if( isset($this->charset) && $this->charset ){
+
+																				
+
+				return array();
+			}
+			$this->charset = true;
+		}
+		return $directiveNode;
+	}
+
+	public function checkPropertiesInRoot( $rulesetNode ){
+
+		if( !$rulesetNode->firstRoot ){
+			return;
+		}
+
+		foreach($rulesetNode->rules as $ruleNode){
+			if( $ruleNode instanceof Less_Tree_Rule && !$ruleNode->variable ){
+				$msg = "properties must be inside selector blocks, they cannot be in the root. Index ".$ruleNode->index.($ruleNode->currentFileInfo ? (' Filename: '.$ruleNode->currentFileInfo['filename']) : null);
+				throw new Less_Exception_Compiler($msg);
+			}
+		}
+	}
+
+
+	public function visitRuleset( $rulesetNode, &$visitDeeper ){
+
+		$visitDeeper = false;
+
+		$this->checkPropertiesInRoot( $rulesetNode );
+
+		if( $rulesetNode->root ){
+			return $this->visitRulesetRoot( $rulesetNode );
+		}
+
+		$rulesets = array();
+		$rulesetNode->paths = $this->visitRulesetPaths($rulesetNode);
+
+
+				$nodeRuleCnt = count($rulesetNode->rules);
+		for( $i = 0; $i < $nodeRuleCnt; ){
+			$rule = $rulesetNode->rules[$i];
+
+			if( property_exists($rule,'rules') ){
+								$rulesets[] = $this->visitObj($rule);
+				array_splice($rulesetNode->rules,$i,1);
+				$nodeRuleCnt--;
+				continue;
+			}
+			$i++;
+		}
+
+
+						if( $nodeRuleCnt > 0 ){
+			$rulesetNode->accept($this);
+
+			if( $rulesetNode->rules ){
+
+				if( count($rulesetNode->rules) >  1 ){
+					$this->_mergeRules( $rulesetNode->rules );
+					$this->_removeDuplicateRules( $rulesetNode->rules );
+				}
+
+								if( $rulesetNode->paths ){
+										array_splice($rulesets,0,0,array($rulesetNode));
+				}
+			}
+
+		}
+
+
+		if( count($rulesets) === 1 ){
+			return $rulesets[0];
+		}
+		return $rulesets;
+	}
+
+
+	
+	private function visitRulesetRoot( $rulesetNode ){
+		$rulesetNode->accept( $this );
+		if( $rulesetNode->firstRoot || $rulesetNode->rules ){
+			return $rulesetNode;
+		}
+		return array();
+	}
+
+
+	
+	private function visitRulesetPaths($rulesetNode){
+
+		$paths = array();
+		foreach($rulesetNode->paths as $p){
+			if( $p[0]->elements[0]->combinator === ' ' ){
+				$p[0]->elements[0]->combinator = '';
+			}
+
+			foreach($p as $pi){
+				if( $pi->getIsReferenced() && $pi->getIsOutput() ){
+					$paths[] = $p;
+					break;
+				}
+			}
+		}
+
+		return $paths;
+	}
+
+	protected function _removeDuplicateRules( &$rules ){
+				$ruleCache = array();
+		for( $i = count($rules)-1; $i >= 0 ; $i-- ){
+			$rule = $rules[$i];
+			if( $rule instanceof Less_Tree_Rule || $rule instanceof Less_Tree_NameValue ){
+
+				if( !isset($ruleCache[$rule->name]) ){
+					$ruleCache[$rule->name] = $rule;
+				}else{
+					$ruleList =& $ruleCache[$rule->name];
+
+					if( $ruleList instanceof Less_Tree_Rule || $ruleList instanceof Less_Tree_NameValue ){
+						$ruleList = $ruleCache[$rule->name] = array( $ruleCache[$rule->name]->toCSS() );
+					}
+
+					$ruleCSS = $rule->toCSS();
+					if( array_search($ruleCSS,$ruleList) !== false ){
+						array_splice($rules,$i,1);
+					}else{
+						$ruleList[] = $ruleCSS;
+					}
+				}
+			}
+		}
+	}
+
+	protected function _mergeRules( &$rules ){
+		$groups = array();
+
+		
+		$rules_len = count($rules);
+		for( $i = 0; $i < $rules_len; $i++ ){
+			$rule = $rules[$i];
+
+			if( ($rule instanceof Less_Tree_Rule) && $rule->merge ){
+
+				$key = $rule->name;
+				if( $rule->important ){
+					$key .= ',!';
+				}
+
+				if( !isset($groups[$key]) ){
+					$groups[$key] = array();
+				}else{
+					array_splice($rules, $i--, 1);
+					$rules_len--;
+				}
+
+				$groups[$key][] = $rule;
+			}
+		}
+
+
+		foreach($groups as $parts){
+
+			if( count($parts) > 1 ){
+				$rule = $parts[0];
+				$spacedGroups = array();
+				$lastSpacedGroup = array();
+				$parts_mapped = array();
+				foreach($parts as $p){
+					if( $p->merge === '+' ){
+						if( $lastSpacedGroup ){
+							$spacedGroups[] = self::toExpression($lastSpacedGroup);
+						}
+						$lastSpacedGroup = array();
+					}
+					$lastSpacedGroup[] = $p;
+				}
+
+				$spacedGroups[] = self::toExpression($lastSpacedGroup);
+				$rule->value = self::toValue($spacedGroups);
+			}
+		}
+
+	}
+
+	public static function toExpression($values){
+		$mapped = array();
+		foreach($values as $p){
+			$mapped[] = $p->value;
+		}
+		return new Less_Tree_Expression( $mapped );
+	}
+
+	public static function toValue($values){
+		
+		$mapped = array();
+		foreach($values as $p){
+			$mapped[] = $p;
+		}
+		return new Less_Tree_Value($mapped);
+	}
+}
+

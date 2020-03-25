@@ -1,0 +1,55 @@
+body {
+    background-color: #000000;
+    color: #000000;
+    font-family: "微軟正黑體" !important;
+    /*,'Roboto', sans-serif;*/
+    font-weight: 300;
+    align-content: center;
+    vertical-align: middle;
+    height: 70vh;
+    overflow-y: hidden;
+    /*overflow-x: hidden;*/
+}
+
+
+.dimmable{
+    height:100vh;
+}
+
+.pusher{
+    height:100vh;
+    width: auto;
+}
+
+.MainContainer {
+
+    justify-content: center;
+
+}
+
+#moodle_discuss{
+    max-height: 100vh;
+}
+
+#ipcs{
+    width: 49vw;
+    /*height:85vh;*/
+    height: 90vh;
+}
+
+/*google檢索*/
+#external_search{
+    width:100%;
+}
+.gsc-control-cse{
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+.gsc-search-box:hover{
+    cursor: pointer;
+}
+
+#top_menu{
+
+	margin:0rem;
+}

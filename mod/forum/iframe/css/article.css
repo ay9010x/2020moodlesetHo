@@ -1,0 +1,36 @@
+body{
+    font-family: "Microsoft JhengHei";
+}
+.article-content {
+    margin: auto;
+    padding: 30px;
+    border-radius: 5px;
+    width: 70%;
+    background-color: rgb(238, 238, 238);
+    color: #000;
+    justify-content: center;
+	max-height: calc(100vh - 100px);
+	overflow-y: auto;
+    font-family: "Microsoft JhengHei";
+}
+.article-content .content{
+    font-size: 1.2em;
+}
+#btnClose{
+    float: right;
+    width: 45px;
+    height: 45px;
+    background-color: #000;
+    border: 1px solid #000;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 2em;
+    text-align: center;
+
+    transition: 0.2s;
+	padding-top: 11px;
+}
+#btnClose:hover{
+    cursor: pointer;
+    box-shadow: 0 0 5px #000;
+}

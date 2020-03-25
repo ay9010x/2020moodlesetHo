@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <XMLDB PATH="report/quizview_weekly_log/db" VERSION="20160518" COMMENT="XMLDB file for Moodle report/quizview"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+  >
+    <TABLES>
+      <TABLE NAME="weekly_log_quiz" COMMENT="weekly log">
+        <FIELDS>
+          <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="courseid"/>
+          <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="startdate" PREVIOUS="id"/>
+          <FIELD NAME="startdate" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="enddate" PREVIOUS="courseid"/>
+          <FIELD NAME="enddate" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="cmid" PREVIOUS="startdate"/>
+          <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="module" PREVIOUS="enddate"/>
+          <FIELD NAME="module" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" NEXT="instance" PREVIOUS="cmid"/>
+          <FIELD NAME="instance" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="cyclebegin" PREVIOUS="module"/>
+          <FIELD NAME="cyclebegin" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="cycleend" PREVIOUS="instance"/>
+          <FIELD NAME="cycleend" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="view" PREVIOUS="cyclebegin"/>
+          <FIELD NAME="view" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" NEXT="viewuser" PREVIOUS="cycleend"/>
+          <FIELD NAME="viewuser" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" NEXT="attempt" PREVIOUS="view"/>
+          <FIELD NAME="attempt" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" NEXT="attemptuser" PREVIOUS="viewuser"/>
+          <FIELD NAME="attemptuser" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" NEXT="finally" PREVIOUS="attempt"/>
+          <FIELD NAME="finally" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" NEXT="timecreated" PREVIOUS="attemptuser"/>
+          <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="finally"/>
+        </FIELDS>
+        <KEYS>
+          <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+      </TABLE>
+    </TABLES>
+  </XMLDB>

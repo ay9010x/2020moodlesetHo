@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <XMLDB PATH="report/forumview_weekly_log/db" VERSION="20160518" COMMENT="XMLDB file for Moodle report/forumview"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+  >
+    <TABLES>
+      <TABLE NAME="weekly_log_forum" COMMENT="weekly log">
+        <FIELDS>
+          <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="courseid"/>
+          <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="startdate" PREVIOUS="id"/>
+          <FIELD NAME="startdate" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="enddate" PREVIOUS="courseid"/>
+          <FIELD NAME="enddate" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="sectionid" PREVIOUS="startdate"/>
+          <FIELD NAME="sectionid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" NEXT="cmid" PREVIOUS="enddate"/>
+          <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="module" PREVIOUS="sectionid"/>
+          <FIELD NAME="module" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" NEXT="instance" PREVIOUS="cmid"/>
+          <FIELD NAME="instance" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="cyclebegin" PREVIOUS="module"/>
+          <FIELD NAME="cyclebegin" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="cycleend" PREVIOUS="instance"/>
+          <FIELD NAME="cycleend" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" NEXT="view" PREVIOUS="cyclebegin"/>
+          <FIELD NAME="view" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" DEFAULT="0" NEXT="viewuser" PREVIOUS="cycleend"/>
+          <FIELD NAME="viewuser" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" DEFAULT="0" NEXT="discussion" PREVIOUS="view"/>
+          <FIELD NAME="discussion" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" DEFAULT="0" NEXT="discussionuser" PREVIOUS="viewuser"/>
+          <FIELD NAME="discussionuser" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" DEFAULT="0" NEXT="postview" PREVIOUS="discussion"/>
+          <FIELD NAME="postview" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" DEFAULT="0" NEXT="postuser" PREVIOUS="discussionuser"/>
+          <FIELD NAME="postuser" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" DEFAULT="0" NEXT="finally" PREVIOUS="postview"/>
+          <FIELD NAME="finally" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" NEXT="timecreated" PREVIOUS="postuser"/>
+          <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="finally"/>
+        </FIELDS>
+        <KEYS>
+          <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+      </TABLE>
+    </TABLES>
+  </XMLDB>
